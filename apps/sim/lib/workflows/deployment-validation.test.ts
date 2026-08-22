@@ -43,7 +43,7 @@ describe('validateWorkflowForDeployment', () => {
     const workflow = state(
       {
         start: block('start', 'starter', { name: 'Start' }),
-        fn: block('fn', 'function', { name: 'Function', enabled: false }),
+        fn: block('fn', 'function', { name: 'Function' }),
       },
       [{ id: 'edge-1', source: 'start', target: 'fn' }]
     )
@@ -54,7 +54,7 @@ describe('validateWorkflowForDeployment', () => {
   it('rejects a disconnected non-entry block before deployment', () => {
     const workflow = state({
       start: block('start', 'starter', { name: 'Start' }),
-      fn: block('fn', 'function', { name: 'Disconnected Function', enabled: false }),
+      fn: block('fn', 'function', { name: 'Disconnected Function' }),
     })
 
     const result = validateWorkflowForDeployment(workflow)
