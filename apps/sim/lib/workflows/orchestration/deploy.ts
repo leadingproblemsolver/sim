@@ -23,6 +23,7 @@ import {
   isNonRetryableDeploymentErrorCode,
   parseDeploymentReadiness,
 } from '@/lib/workflows/deployment-lifecycle'
+import { validateWorkflowForDeployment } from '@/lib/workflows/deployment-validation'
 import {
   DEPLOYMENT_READINESS_COMPONENTS,
   enqueueWorkflowDeploymentPreparation,
@@ -195,7 +196,7 @@ async function performStableFullDeploy(params: {
     }
   }
 
-  const validation = await validateDeploymentState(workflowState.blocks)
+  const validation = await validateDeploymentState(workflowState)
   if (!validation.success) return validation
 
   const requestHash = createDeploymentRequestHash({
@@ -284,11 +285,21 @@ function buildInlinePreparationFailure(
 }
 
 async function validateDeploymentState(
-  blocks: Record<string, BlockState>
+  workflowState: WorkflowState
 ): Promise<
   | { success: true }
   | { success: false; error: string; errorCode: Extract<OrchestrationErrorCode, 'validation'> }
 > {
+  const workflowValidation = validateWorkflowForDeployment(workflowState)
+  if (!workflowValidation.valid) {
+    return {
+      success: false,
+      error: `Invalid workflow configuration: ${workflowValidation.errors.join('; ')}`,
+      errorCode: 'validation',
+    }
+  }
+
+  const blocks = workflowState.blocks
   const scheduleValidation = validateWorkflowSchedules(blocks)
   if (!scheduleValidation.isValid) {
     return {
