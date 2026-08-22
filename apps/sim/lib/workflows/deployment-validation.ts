@@ -1,5 +1,5 @@
-import { isTriggerBlockType } from '@/executor/constants'
 import { getBlock } from '@/blocks'
+import { isTriggerBlockType } from '@/executor/constants'
 import { collectBlockFieldIssues, extractBlockParams } from '@/serializer'
 import type { BlockState, WorkflowState } from '@/stores/workflows/workflow/types'
 
