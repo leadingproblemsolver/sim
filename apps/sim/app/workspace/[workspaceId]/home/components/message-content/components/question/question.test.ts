@@ -9,7 +9,7 @@ import {
   parseQuestionAnswerMessage,
   QuestionDisplay,
 } from '@/app/workspace/[workspaceId]/home/components/message-content/components/question/question'
-import type { QuestionItem } from '@/app/workspace/[workspaceId]/home/components/message-content/components/special-tags/special-tags'
+import type { QuestionItem } from '@/app/workspace/[workspaceId]/home/components/message-content/components/special-tags/special-tags-parser'
 
 const QUESTIONS: QuestionItem[] = [
   {
