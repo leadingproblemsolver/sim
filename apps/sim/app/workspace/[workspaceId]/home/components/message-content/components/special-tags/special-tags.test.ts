@@ -15,13 +15,13 @@ vi.mock('@/lib/auth/auth-client', () => ({
 }))
 
 import { scalingRatioOver4x } from '@/app/workspace/[workspaceId]/home/components/message-content/components/scaling-test-helpers'
+import { credentialTagHasVisibleCard } from '@/app/workspace/[workspaceId]/home/components/message-content/components/special-tags/special-tags'
 import type {
   ContentSegment,
   CredentialItemData,
   IndexOfCache,
-} from '@/app/workspace/[workspaceId]/home/components/message-content/components/special-tags/special-tags'
+} from '@/app/workspace/[workspaceId]/home/components/message-content/components/special-tags/special-tags-parser'
 import {
-  credentialTagHasVisibleCard,
   formatCredentialSubmissionMessage,
   memoizedIndexOf,
   parseCredentialSubmissionMessage,
@@ -31,7 +31,7 @@ import {
   parseQuestionTagBody,
   parseSpecialTags,
   SPECIAL_TAG_NAMES,
-} from '@/app/workspace/[workspaceId]/home/components/message-content/components/special-tags/special-tags'
+} from '@/app/workspace/[workspaceId]/home/components/message-content/components/special-tags/special-tags-parser'
 
 /**
  * What a reader actually sees: the renderer concatenates adjacent text segments
