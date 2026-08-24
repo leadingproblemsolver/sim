@@ -1,9 +1,6 @@
 name: Validate deployment workflow #3444
 
 on:
-  push:
-    branches:
-      - fix/deploy-workflow-validation-3444
   pull_request:
     branches:
       - staging
@@ -25,7 +22,7 @@ jobs:
       - name: Checkout exact PR head
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
