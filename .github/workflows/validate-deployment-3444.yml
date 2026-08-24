@@ -1,0 +1,33 @@
+name: Validate deployment workflow #3444
+
+on:
+  pull_request:
+    branches:
+      - staging
+    paths:
+      - 'apps/sim/lib/workflows/deployment-validation.ts'
+      - 'apps/sim/lib/workflows/deployment-validation.test.ts'
+      - 'apps/sim/lib/workflows/orchestration/deploy.ts'
+      - '.github/workflows/validate-deployment-3444.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  targeted-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Run deployment validation regression tests
+        run: bunx vitest run apps/sim/lib/workflows/deployment-validation.test.ts
