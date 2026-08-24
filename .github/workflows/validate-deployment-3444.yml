@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - fix/deploy-workflow-validation-3444
+  pull_request:
+    branches:
+      - staging
+    paths:
+      - 'apps/sim/lib/workflows/deployment-validation.ts'
+      - 'apps/sim/lib/workflows/deployment-validation.test.ts'
+      - 'apps/sim/lib/workflows/orchestration/deploy.ts'
+      - '.github/workflows/validate-deployment-3444.yml'
   workflow_dispatch:
 
 permissions:
@@ -14,8 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout exact branch head
+      - name: Checkout exact PR head
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
